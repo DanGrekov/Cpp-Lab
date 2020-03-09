@@ -1,31 +1,127 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29806.167
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Сpp lab 1", "Сpp lab 1\Сpp lab 1.vcxproj", "{510A8C58-0253-4768-A305-2ACF3E231A4D}"
-EndProject
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|x64 = Debug|x64
-		Debug|x86 = Debug|x86
-		Release|x64 = Release|x64
-		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{510A8C58-0253-4768-A305-2ACF3E231A4D}.Debug|x64.ActiveCfg = Debug|x64
-		{510A8C58-0253-4768-A305-2ACF3E231A4D}.Debug|x64.Build.0 = Debug|x64
-		{510A8C58-0253-4768-A305-2ACF3E231A4D}.Debug|x86.ActiveCfg = Debug|Win32
-		{510A8C58-0253-4768-A305-2ACF3E231A4D}.Debug|x86.Build.0 = Debug|Win32
-		{510A8C58-0253-4768-A305-2ACF3E231A4D}.Release|x64.ActiveCfg = Release|x64
-		{510A8C58-0253-4768-A305-2ACF3E231A4D}.Release|x64.Build.0 = Release|x64
-		{510A8C58-0253-4768-A305-2ACF3E231A4D}.Release|x86.ActiveCfg = Release|Win32
-		{510A8C58-0253-4768-A305-2ACF3E231A4D}.Release|x86.Build.0 = Release|Win32
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {45A6C443-26AA-4217-BDCD-0495A6FF295E}
-	EndGlobalSection
-EndGlobal
+#include <iostream>
+
+struct Date {
+	short day;
+	short month;
+	short year;
+	bool isCorrect();
+};
+
+bool Date::isCorrect()
+{
+	bool result = false;
+	switch (month)
+	{
+	case 1:
+	case 3:
+	case 5:
+	case 7:
+	case 8:
+	case 10:
+	case 12:
+	{
+		if ((day <= 31) && (day > 0))
+			result = true;
+		break;
+	}
+
+	case 4:
+	case 6:
+	case 9:
+	case 11:
+	{
+		if ((day <= 30) && (day > 0))
+			result = true;
+		break;
+	}
+
+	case 2:
+	{
+		if (year % 4 != 0)
+		{
+			if ((day <= 28) && (day > 0))
+				result = true;
+		}
+		else
+			if (year % 400 == 0)
+			{
+				if ((day <= 29) && (day > 0))
+					result = true;
+			}
+			else
+				if ((year % 100 == 0) && (year % 400 != 0))
+				{
+					if ((day == 28) && (day > 0))
+						result = true;
+				}
+				else
+					if ((year % 4 == 0) && (year % 100 != 0))
+						if ((day <= 29) && (day > 0))
+							result = true;
+		break;
+	}
+
+	default:
+		result = false;
+	}
+
+	return result;
+}
+
+struct Student
+{
+	char Naim[56];
+	char Manuf[32];
+	Date birthday;
+	short Price;
+	short Number;
+};
+
+using namespace std;
+int main()
+{
+	const int N = 2;
+	Student group[N];
+
+	for (int i = 0; i < N; i++)
+	{
+		cout << "\nInput Naim: ";
+		cin.ignore(std::cin.rdbuf()->in_avail());
+		cin.getline(group[i].Naim, 56);
+
+		cout << "\nIinput Manuf: ";
+		cin.ignore(std::cin.rdbuf()->in_avail());
+		cin.getline(group[i].Manuf, 32);
+
+
+
+		do
+		{
+			cout << "\nInput Date of Application: ";
+			cin.ignore(std::cin.rdbuf()->in_avail());
+			cin >> group[i].birthday.day >> group[i].birthday.month >> group[i].birthday.year;
+		} while (!group[i].birthday.isCorrect());
+
+		cout << "\nInput Price:";
+		cin.ignore(std::cin.rdbuf()->in_avail());
+		cin >> group[i].Price;
+
+		cout << "\nInput Number:";
+		cin.ignore(std::cin.rdbuf()->in_avail());
+		cin >> group[i].Number;
+
+
+	}
+
+	for (int i = 0; i < N; i++)
+	{
+		cout << "\nNaim: " << group[i].Naim << endl;
+		cout << "\nManuf: " << group[i].Manuf << endl;
+		cout << "\nDate of Application: " << group[i].birthday.day << "." << group[i].birthday.month << "." << group[i].birthday.year;
+		cout << "\nPrice: " << group[i].Price << endl;
+		cout << "\nNumber: " << group[i].Number << endl;
+	}
+
+
+
+}
