@@ -1,0 +1,312 @@
+#include <iostream>
+#include <Windows.h>
+
+#define garbage_collector() cin.ignore(cin.rdbuf()->in_avail())
+
+using namespace std;
+
+struct Date
+{
+	short day;
+	short month;
+	short year;
+	bool isCorrect();
+};
+
+bool Date::isCorrect()
+{
+	bool result = false;
+	if ((day < 1) || (month < 1) || (year < 1))
+		result = false;
+	else {
+		switch (month)
+		{
+		case 1:
+		case 3:
+		case 5:
+		case 7:
+		case 8:
+		case 10:
+		case 12:
+		{
+			if ((day <= 31) && (day > 0))
+				result = true;
+			break;
+		}
+
+		case 4:
+		case 6:
+		case 9:
+		case 11:
+		{
+			if ((day <= 30) && (day > 0))
+				result = true;
+			break;
+		}
+
+		case 2:
+		{
+			if (year % 4 != 0)
+			{
+				if ((day <= 28) && (day > 0))
+					result = true;
+			}
+			else
+				if (year % 400 == 0)
+				{
+					if ((day <= 29) && (day > 0))
+						result = true;
+				}
+				else
+					if ((year % 100 == 0) && (year % 400 != 0))
+					{
+						if ((day == 28) && (day > 0))
+							result = true;
+					}
+					else
+						if ((year % 4 == 0) && (year % 100 != 0))
+							if ((day <= 29) && (day > 0))
+								result = true;
+			break;
+		}
+
+		default:
+			result = false;
+		}
+	}
+	return result;
+}
+
+struct Person
+{
+	char FirstN[15],
+		SecondN[15],
+		LastN[15],
+		Sex[7],
+		Nationality[56],
+		Address[255],
+		CreditCard[255],
+		Bank[10],
+		MobNumber[56];
+
+	int Age,
+		Height,
+		Weight;
+
+
+
+	Date Birthday;
+};
+
+Person* InitArray(int Dimension);
+Person InitPerson();
+void DisplayArray(Person* Massive, int Dimaension);
+void DisplayChoise(Person*, int, char*, int, int);
+void DisplayPerson(Person);
+void SortFirstName(Person*, int);
+int& CheckCorectDigitValue(int&);
+
+void main(int argc, char* argv)
+{
+	SetConsoleOutputCP(1251);
+	SetConsoleCP(1251);
+	setlocale(0, "");
+
+	int Dimension;
+	char SexTag[7];
+	int LowAge, UpperAge;
+	bool begin = true;
+tryagain:
+	Person* MassiveStruct = nullptr;
+	do
+	{
+		cout << "Номер кредитной карты:  ";
+		do {
+			cin >> Dimension;
+			if (cin.fail())
+			{
+				cout << "[!]Повторите попытку: " << endl;
+				cin.clear();
+				cin.ignore(32222, '\n');
+			}
+			else
+				break;
+		} while (true);
+		MassiveStruct = InitArray(Dimension);
+		if (MassiveStruct == nullptr)
+		{
+			cout << "\n[!]Массив не существует\n";
+
+			do {
+				cout << "[!]Введите '+' для того чтобы повторить попытку или нажмите '-' чтобы выйти из програмы... ";
+				char symbol;
+				symbol = getchar();
+				(symbol == '+') ? begin == true : begin == false;
+				if (symbol == '+')
+					goto tryagain;
+				exit(777);
+
+			} while (!begin);
+		}
+
+
+	} while (begin != true);
+
+	cout << "\n   Полная информация:   \n";
+	DisplayArray(MassiveStruct, Dimension);
+
+	
+
+	cout << "\n[!]Список покупателей: ";
+	DisplayChoise(MassiveStruct, Dimension, SexTag, LowAge, UpperAge);
+
+	cout << "\n[!]Сортировка данных: ";
+	SortFirstName(MassiveStruct, Dimension);
+	DisplayArray(MassiveStruct, Dimension);
+
+	delete MassiveStruct;
+}
+Person InitPerson()
+{
+	Person Pupil;
+
+	cout << "\nВведите имя: ";
+	garbage_collector();
+	cin.getline(Pupil.FirstN, 255);
+
+	cout << "Введите фамилию: ";
+	garbage_collector();
+	cin.getline(Pupil.SecondN, 255);
+
+	cout << "Введите очество: ";
+	garbage_collector();
+	cin.getline(Pupil.LastN, 255);
+
+	cout << "Возраст: ";
+	garbage_collector();
+	cin >> Pupil.Age;
+
+	cout << "Пол: ";
+	garbage_collector();
+	cin.getline(Pupil.Sex, 255);
+
+	cout << "Национальность: ";
+	garbage_collector();
+	cin.getline(Pupil.Nationality, 255);
+
+	cout << "Рост: ";
+	garbage_collector();
+	cin >> Pupil.Height;
+
+	cout << "Вес: ";
+	garbage_collector();
+	cin >> Pupil.Weight;
+
+	do {
+		cout << "Дата рождения: ";
+		garbage_collector();
+		cin >> Pupil.Birthday.day >> Pupil.Birthday.month >> Pupil.Birthday.year;
+	} while (!Pupil.Birthday.isCorrect());
+
+	cout << "Контактный мобильный телефон: ";
+	garbage_collector();
+	cin.getline(Pupil.MobNumber, 56);
+
+	cout << "Домашний адрес: ";
+	garbage_collector();
+	cin.getline(Pupil.Address, 255);
+
+	cout << "Номер кредитной карты: ";
+	garbage_collector();
+	cin.getline(Pupil.CreditCard, 255);
+
+	cout << "Банковский счет: ";
+	garbage_collector();
+	cin.getline(Pupil.Bank, 10);
+
+
+	return Pupil;
+}
+
+Person* InitArray(int Dimension)
+{
+	Person* Massive = new Person[Dimension];
+	if (Massive == nullptr)
+		return nullptr;
+	for (size_t i = 0; i < Dimension; i++)
+	{
+		printf("\n[!]Введите информацию по %d покупателю ", i + 1);
+		Massive[i] = InitPerson();
+	}
+	return Massive;
+}
+
+void DisplayArray(Person* Massive, int Dimension)
+{
+	for (size_t i = 0; i < Dimension; i++) { DisplayPerson(Massive[i]); }
+}
+
+void DisplayChoise(Person* Massive, int Dimension, char* SexTag, int LowAge, int UpperAge)
+{
+	for (size_t i = 0; i < Dimension; i++)
+	{
+		if (
+			strcmp(Massive[i].Sex, SexTag) == 0 &&
+			Massive[i].Age <= UpperAge &&
+			Massive[i].Age >= LowAge
+			)
+		{
+			DisplayPerson(Massive[i]);
+		}
+	}
+}
+
+void DisplayPerson(Person Pupil)
+{
+	cout << "Полное имя: " << Pupil.FirstN << " " << Pupil.SecondN << " " << Pupil.LastN << endl;
+	cout << "Возраст: " << Pupil.Age << endl;
+	cout << "Пол: " << Pupil.Sex << endl;
+	cout << "Рост: " << Pupil.Height << endl;
+	cout << "Вес: " << Pupil.Weight << endl;
+	cout << "Дата рождения: " << Pupil.Birthday.day << "." << Pupil.Birthday.month << "." << Pupil.Birthday.year << endl;
+	cout << "Контактный телефон: " << Pupil.MobNumber << endl;
+	cout << "Адрес: " << Pupil.Address << endl;
+	cout << "Номер карыты: " << Pupil.CreditCard << endl;
+	cout << "Банковский счет: " << Pupil.Bank << "\n\n";
+
+}
+void SortFirstName(Person* Massive, int Dimension)
+{
+	Person Temp;
+	for (size_t i = 0; i <= Dimension; i++)
+	{
+		for (size_t q = Dimension - 1; q > i; q--)
+		{
+			if (strcmp(Massive[q].FirstN, Massive[q - 1].FirstN) < 0)
+
+				Temp = Massive[q];
+			Massive[q] = Massive[q - 1];
+			Massive[q - 1] = Temp;
+
+		}
+	}
+}
+int& CheckCorectDigitValue(int& value)
+{
+	bool flag = false;
+	do {
+		if (flag) {
+			cout << "[!]Повторите попытку ";
+		}flag = false;
+		cin >> value;
+		if (cin.fail())
+		{
+			cin.clear();
+			cin.ignore(32222, '\n');
+		}
+		else
+		{
+			return value;
+		}
+	} while (true);
+}
