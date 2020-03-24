@@ -1,0 +1,57 @@
+//базовый уровень
+
+#include <iostream>
+#include <cctype>   
+ 
+using namespace std;
+ 
+int main()
+{
+  int indx = 0;                               
+  char character, str[] = "EditablE TexT\n";
+ 
+  while (str[indx])                          
+  {
+    character = str[indx];
+ 
+    if ( islower(character) )   {          
+       character = toupper(character); 
+
+    }
+    
+    else
+       character = tolower(character); 
+       
+    indx++;   
+    cout << character;
+  }
+   
+  return 0;
+}
+
+
+
+//средний уровень
+
+
+
+#include <iostream>
+#include <string>
+#include <sstream> 
+using namespace std;
+ 
+int main()
+{    
+    string s, word;
+    cout << "String:\n";
+    getline(cin, s);    
+    
+    stringstream words(s);
+    while (words >> word)
+    {
+        if (word.find('k')!=std::string::npos) cout << word << "\n";        
+    }
+    
+system("pause");
+return 0;
+}
