@@ -1,0 +1,128 @@
+#include "stdafx.h"
+#include <iostream>
+#include <string>
+#include <fstream>
+ 
+using namespace std;
+ 
+struct Computer
+{
+    string name;
+    double diag;
+    int cost;
+};
+ 
+void Init(Computer *arr, const int n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        cout << "Input name: ";
+        cin >> arr[i].name;
+        cout << "Input diag: ";
+        cin >> arr[i].diag; cin.ignore();
+        cout << "Input cost: ";
+        cin >> arr[i].cost; cin.ignore();
+    }
+}
+ 
+void Print(Computer *arr, const int n)
+{
+    cout << "\nList: " << endl;
+    for (int i = 0; i < n; i++)
+    {
+        cout << arr[i].name << " | " << arr[i].diag << " | " << arr[i].cost << endl;
+    }
+}
+ 
+void Write(Computer *arr, const int n)
+{
+    ofstream file("file.txt", ios::binary | ios::in);
+    for (int i = 0; i < n; i++)
+    {
+        file.write((char*)&arr[i].name, sizeof arr[i].name);
+        file.write((char*)&arr[i].diag, sizeof arr[i].diag);
+        file.write((char*)&arr[i].cost, sizeof arr[i].cost);
+    }
+    file.close();
+}
+ 
+int main()
+{
+    int n;
+    cout << "Input number of computers:";
+    cin >> n;
+    Computer *arr = new Computer[n];
+    Init(arr, n);
+    Print(arr, n);
+    Write(arr, n);
+    delete[] arr;
+    return 0;
+}
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+#include "stdafx.h"
+#include <iostream>
+#include <string>
+#include <fstream>
+ 
+using namespace std;
+ 
+struct Inst
+{
+    string name;
+    double number;
+    int cost;
+};
+ 
+void Init(Inst *arr, const int n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        cout << "Input name: ";
+        cin >> arr[i].name;
+        cout << "Input number: ";
+        cin >> arr[i].diag; cin.ignore();
+        cout << "Input cost: ";
+        cin >> arr[i].cost; cin.ignore();
+    }
+}
+ 
+void Print(Inst *arr, const int n)
+{
+    cout << "\nList: " << endl;
+    for (int i = 0; i < n; i++)
+    {
+        cout << arr[i].name << " | " << arr[i].number << " | " << arr[i].cost << endl;
+    }
+}
+ 
+void Write(Inst *arr, const int n)
+{
+    ofstream file("file.txt", ios::binary | ios::in);
+    for (int i = 0; i < n; i++)
+    {
+        file.write((char*)&arr[i].name, sizeof arr[i].name);
+        file.write((char*)&arr[i].number, sizeof arr[i].diag);
+        file.write((char*)&arr[i].cost, sizeof arr[i].cost);
+    }
+    file.close();
+}
+ 
+int main()
+{
+    int n;
+    cout << "Input number of student:";
+    cin >> n;
+    Computer *arr = new Inst[n];
+    Init(arr, n);
+    Print(arr, n);
+    Write(arr, n);
+    delete[] arr;
+    return 0;
+}
