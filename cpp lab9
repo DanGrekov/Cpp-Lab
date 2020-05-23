@@ -1,0 +1,22 @@
+
+#include "stdafx.h" 
+#include <iostream>
+#include <ctime>
+using namespace std;
+int main ()
+{
+   setlocale(0, "Ru");
+  time_t start, end;
+  char name[80];
+ 
+  time (&start);                                 // начальное время
+  cout << "Пожалуйста, введите своё имя: ";
+  cin.getline(name,80);                         // считать имя в name
+  time (&end);                                   // конечное время
+ 
+  cout << "Здравствуйте, " << name << endl;
+  cout << "Вам понадобилось  " << difftime(end, start) << " секунд для ввода своего имени\n";
+       
+ 
+  return 0;
+}
