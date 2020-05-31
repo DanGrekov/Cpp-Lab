@@ -1,0 +1,94 @@
+
+using System;
+using System.Threading;
+
+class HelloWorld 
+{
+  
+        static void mythread1()
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                if(i == 1)
+                Console.WriteLine("Рабочий 1 идёт к шахте ");
+                if(i == 2)
+                Console.WriteLine("Рабочий 1 добывает золото ");
+                if(i == 3)
+                Console.WriteLine("Рабочий 1 идёт обратно ");
+                if(i == 4)
+                Console.WriteLine("Рабочий 1 приносит золото ");
+            }
+            
+        }
+
+        static void mythread2()
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                if(i == 1)
+                Console.WriteLine("Рабочий 2 идёт к шахте ");
+                if(i == 2)
+                Console.WriteLine("Рабочий 2 добывает золото ");
+                if(i == 3)
+                Console.WriteLine("Рабочий 2 идёт обратно ");
+                if(i == 4)
+                Console.WriteLine("Рабочий 2 приносит золото ");
+            }
+        }
+        static void mythread3()
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                if(i == 1)
+                Console.WriteLine("Рабочий 3 идёт к шахте ");
+                if(i == 2)
+                Console.WriteLine("Рабочий 3 добывает золото ");
+                if(i == 3)
+                Console.WriteLine("Рабочий 3 идёт обратно ");
+                if(i == 4)
+                Console.WriteLine("Рабочий 3 приносит золото ");
+            }
+        }
+        
+         static void mythread4()
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                if(i == 1)
+                Console.WriteLine("Рабочий 4 идёт к шахте ");
+                if(i == 2)
+                Console.WriteLine("Рабочий 4 добывает золото ");
+                if(i == 3)
+                Console.WriteLine("Рабочий 4 идёт обратно ");
+                if(i == 4)
+                Console.WriteLine("Рабочий 4 приносит золото ");
+            }
+        }
+        
+        static void Main(string[] args)
+        {
+            Thread thread1 = new Thread(mythread1);
+            Thread thread2 = new Thread(mythread2);
+            Thread thread3 = new Thread(mythread3);
+            Thread thread4 = new Thread(mythread4);
+
+            thread1.Start();
+            thread2.Start();
+            thread3.Start();
+            thread4.Start();
+
+            for (int i = 0; i < 5; i++)
+            {
+                if(i == 1)
+                Console.WriteLine("Рабочий 5 идёт к шахте ");
+                if(i == 2)
+                Console.WriteLine("Рабочий 5 добывает золото ");
+                if(i == 3)
+                Console.WriteLine("Рабочий 5 идёт обратно ");
+                if(i == 4)
+                Console.WriteLine("Рабочий 5 приносит золото ");
+                
+            }
+            Console.ReadLine();
+        }
+}
