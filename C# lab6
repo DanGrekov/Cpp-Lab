@@ -67,6 +67,8 @@ class HelloWorld
         
         static void Main(string[] args)
         {
+            Console.WriteLine("Циклы работы рабочих из игры Warcraft.  \n ");
+            
             Thread thread1 = new Thread(mythread1);
             Thread thread2 = new Thread(mythread2);
             Thread thread3 = new Thread(mythread3);
